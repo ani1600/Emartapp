@@ -65,7 +65,7 @@ public class ProductsDAO {
     }
     public static boolean deleteProduct(String id)throws SQLException{
        Connection conn= DBConnection.getConnection();
-        PreparedStatement ps=conn.prepareStatement("Update products set status='N'where id=?");
+        PreparedStatement ps=conn.prepareStatement("Update products set status='N'where p_id=?");
         ps.setString(1,id);
         return ps.executeUpdate()==1;
     }

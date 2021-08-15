@@ -115,6 +115,11 @@ public class ManagerFrame extends javax.swing.JFrame {
         btnManageStocks.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnManageStocks.setForeground(new java.awt.Color(240, 240, 240));
         btnManageStocks.setText("Manage Stocks");
+        btnManageStocks.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnManageStocksActionPerformed(evt);
+            }
+        });
 
         btnViewOrders.setBackground(new java.awt.Color(51, 0, 153));
         btnViewOrders.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -218,6 +223,12 @@ public class ManagerFrame extends javax.swing.JFrame {
        rf.setVisible(true);
        this.dispose();
     }//GEN-LAST:event_btnManageReceptionistActionPerformed
+
+    private void btnManageStocksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageStocksActionPerformed
+        ManageStockFrame ms=new ManageStockFrame();
+        ms.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnManageStocksActionPerformed
 
     /**
      * @param args the command line arguments

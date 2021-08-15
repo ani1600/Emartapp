@@ -6,28 +6,24 @@
 package Emart.gui;
 
 import Emart.dao.ProductsDAO;
-import Emart.pojo.BarCode_IMG_Generator;
 import Emart.pojo.ProductsPojo;
 import java.sql.SQLException;
+import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author AKAN
  */
-public class AddItemFrame extends javax.swing.JFrame {
+public class UpdateItemFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form AddItemFrame
-     */
-    public AddItemFrame() {
+    DefaultTableModel tm;
+    public UpdateItemFrame() {
         initComponents();
         setLocationRelativeTo(null);
-        setTitle("Add Item");
-        getNewProductId();
-    }
-    private boolean validateInput(){
-        return!(txtPname.getText().isEmpty()||txtPprice.getText().isEmpty()||txtOprice.getText().isEmpty()||txtPcompany.getText().isEmpty()||txtQuantity.getText().isEmpty());
+        setTitle("Update Item");
+        loadProductDetails();
     }
 
     /**
@@ -40,10 +36,6 @@ public class AddItemFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        btnBack = new javax.swing.JButton();
-        btnLogout = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -59,71 +51,21 @@ public class AddItemFrame extends javax.swing.JFrame {
         txtQuantity = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         txtPprice = new javax.swing.JTextField();
-        btnadd = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jtProductDetails = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        btnBack = new javax.swing.JButton();
+        btnLogout = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(157, 0, 0));
         jPanel1.setForeground(new java.awt.Color(240, 240, 240));
 
-        jPanel2.setBackground(new java.awt.Color(157, 0, 0));
-        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(153, 0, 0), null, null));
-        jPanel2.setForeground(new java.awt.Color(240, 240, 240));
-        jPanel2.setOpaque(false);
-
-        jLabel2.setBackground(new java.awt.Color(51, 0, 51));
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(240, 240, 240));
-        jLabel2.setText("Add Item Panel");
-
-        btnBack.setBackground(new java.awt.Color(0, 0, 0));
-        btnBack.setForeground(new java.awt.Color(240, 240, 240));
-        btnBack.setText("Back");
-        btnBack.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBackActionPerformed(evt);
-            }
-        });
-
-        btnLogout.setBackground(new java.awt.Color(0, 0, 0));
-        btnLogout.setForeground(new java.awt.Color(240, 240, 240));
-        btnLogout.setText("Logout");
-        btnLogout.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLogoutActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(58, 58, 58)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(69, 69, 69)
-                .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(39, 39, 39)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(49, 49, 49)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnLogout)
-                            .addComponent(btnBack))))
-                .addContainerGap(42, Short.MAX_VALUE))
-        );
-
         jPanel3.setBackground(new java.awt.Color(157, 0, 0));
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Add Item", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 24), new java.awt.Color(240, 240, 240))); // NOI18N
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Update Item", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 24), new java.awt.Color(240, 240, 240))); // NOI18N
 
         jLabel3.setBackground(new java.awt.Color(51, 0, 51));
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -199,7 +141,7 @@ public class AddItemFrame extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(47, 47, 47)
-                        .addComponent(jcTax, 0, 156, Short.MAX_VALUE))
+                        .addComponent(jcTax, 0, 186, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(47, 47, 47)
@@ -238,12 +180,92 @@ public class AddItemFrame extends javax.swing.JFrame {
                 .addGap(101, 101, 101))
         );
 
-        btnadd.setBackground(new java.awt.Color(0, 0, 0));
-        btnadd.setForeground(new java.awt.Color(240, 240, 240));
-        btnadd.setText("Add");
-        btnadd.addActionListener(new java.awt.event.ActionListener() {
+        jtProductDetails.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Product Id", "Product Name", "Product Company", "Product Price", "Our Price", "Quantity", "Tax"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jtProductDetails.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtProductDetailsMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jtProductDetails);
+
+        jPanel2.setBackground(new java.awt.Color(157, 0, 0));
+        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(153, 0, 0), null, null));
+        jPanel2.setForeground(new java.awt.Color(240, 240, 240));
+        jPanel2.setOpaque(false);
+
+        jLabel2.setBackground(new java.awt.Color(51, 0, 51));
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(240, 240, 240));
+        jLabel2.setText("Update Item");
+
+        btnBack.setBackground(new java.awt.Color(0, 0, 0));
+        btnBack.setForeground(new java.awt.Color(240, 240, 240));
+        btnBack.setText("Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnaddActionPerformed(evt);
+                btnBackActionPerformed(evt);
+            }
+        });
+
+        btnLogout.setBackground(new java.awt.Color(0, 0, 0));
+        btnLogout.setForeground(new java.awt.Color(240, 240, 240));
+        btnLogout.setText("Logout");
+        btnLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogoutActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(58, 58, 58)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 240, Short.MAX_VALUE)
+                .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(69, 69, 69)
+                .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(49, 49, 49)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnLogout)
+                            .addComponent(btnBack))))
+                .addContainerGap(42, Short.MAX_VALUE))
+        );
+
+        btnUpdate.setBackground(new java.awt.Color(0, 0, 0));
+        btnUpdate.setForeground(new java.awt.Color(240, 240, 240));
+        btnUpdate.setText("Update");
+        btnUpdate.setEnabled(false);
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
             }
         });
 
@@ -252,14 +274,21 @@ public class AddItemFrame extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(337, 337, 337)
-                .addComponent(btnadd, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(344, 344, 344)
+                .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -267,18 +296,20 @@ public class AddItemFrame extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
+                .addGap(34, 34, 34)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
-                .addComponent(btnadd)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addGap(38, 38, 38)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnUpdate)
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -300,8 +331,27 @@ public class AddItemFrame extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnLogoutActionPerformed
 
-    private void btnaddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaddActionPerformed
-        if(!validateInput()){
+    private void jtProductDetailsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtProductDetailsMouseClicked
+        int row=jtProductDetails.getSelectedRow();
+        txtPId.setText(tm.getValueAt(row,0).toString());
+        txtPname.setText(tm.getValueAt(row,1).toString());
+        txtPprice.setText(tm.getValueAt(row,2).toString());
+        txtOprice.setText(tm.getValueAt(row,3).toString());
+        txtPcompany.setText(tm.getValueAt(row,4).toString());
+        txtQuantity.setText(tm.getValueAt(row,5).toString());
+        jcTax.setSelectedItem(tm.getValueAt(row,6));
+        btnUpdate.setEnabled(true);
+    }//GEN-LAST:event_jtProductDetailsMouseClicked
+  private boolean validateInputs(){
+      return!(txtPname.getText().isEmpty()||txtPprice.getText().isEmpty()||txtOprice.getText().isEmpty()||txtPcompany.getText().isEmpty()||txtQuantity.getText().isEmpty());
+  }
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        if(jtProductDetails.getSelectedRow()==-1){
+            JOptionPane.showMessageDialog(null,"Please select a row","No row selected",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        if(!validateInputs()){
             JOptionPane.showMessageDialog(null,"Please Fill all the Fields","Incomplete Data",JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -316,25 +366,27 @@ public class AddItemFrame extends javax.swing.JFrame {
             p.setProductCompany(txtPcompany.getText().trim());
             p.setQuantity(Integer.parseInt(txtQuantity.getText().trim()));
             p.setTax(tax);
-            boolean result= ProductsDAO.addProduct(p);
-           if(!result){
+            boolean result=ProductsDAO.updateProduct(p);
+            if(!result){
             JOptionPane.showMessageDialog(null,"Product not add","Error",JOptionPane.ERROR_MESSAGE);
             return;
+           }
+            JOptionPane.showMessageDialog(null,"Product Updated Successfully","Success",JOptionPane.INFORMATION_MESSAGE);
+            tm.setRowCount(0);
+            loadProductDetails();
+            clearText();
+            btnUpdate.setEnabled(false);
+            return;
         }
-        JOptionPane.showMessageDialog(null,"Product Added Successfully","Sucess",JOptionPane.INFORMATION_MESSAGE);
-        BarCode_IMG_Generator.createImage(txtPId.getText()+".png",txtPId.getText());//it is a method defined in pojo pakage it takes 2 parameters the name of barcode image and second is the information of which we want to generate the bar code of.
-        clearText();
-        this.getNewProductId();
+        catch (NumberFormatException e){
+            JOptionPane.showMessageDialog(null,"Please enter valid input for salary","Error",JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
-        catch(NumberFormatException e){
-          JOptionPane.showMessageDialog(null,"Please input numeric value","Conversion Error",JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();  
-        }  
         catch(SQLException e){
           JOptionPane.showMessageDialog(null,"DB Error","Error",JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();  
-        }  
-    }//GEN-LAST:event_btnaddActionPerformed
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
 
     /**
      * @param args the command line arguments
@@ -353,20 +405,20 @@ public class AddItemFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AddItemFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UpdateItemFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AddItemFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UpdateItemFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AddItemFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UpdateItemFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddItemFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UpdateItemFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AddItemFrame().setVisible(true);
+                new UpdateItemFrame().setVisible(true);
             }
         });
     }
@@ -374,7 +426,7 @@ public class AddItemFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnLogout;
-    private javax.swing.JButton btnadd;
+    private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -386,7 +438,9 @@ public class AddItemFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox<String> jcTax;
+    private javax.swing.JTable jtProductDetails;
     private javax.swing.JTextField txtOprice;
     private javax.swing.JTextField txtPId;
     private javax.swing.JTextField txtPcompany;
@@ -395,15 +449,30 @@ public class AddItemFrame extends javax.swing.JFrame {
     private javax.swing.JTextField txtQuantity;
     // End of variables declaration//GEN-END:variables
 
-    private void getNewProductId() {
+    private void loadProductDetails() {
         try{
-            String pid=ProductsDAO.getNextProductId();
-            txtPId.setText(pid);
+            List<ProductsPojo> al=ProductsDAO.getProductDetails();
+            if(al.isEmpty()){
+                JOptionPane.showMessageDialog(null,"No products present in stock","No products",JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+            Object [] rows=new Object[7];
+            tm=(DefaultTableModel)jtProductDetails.getModel();
+            for(ProductsPojo p:al){
+                rows[0]=p.getProductId();
+                rows[1]=p.getProductName();
+                rows[2]=p.getProductPrice();
+                rows[3]=p.getOurPrice();
+                rows[4]=p.getProductCompany();
+                rows[5]=p.getQuantity();
+                rows[6]=p.getTax()+"%";
+                tm.addRow(rows);
+            } 
         }
         catch(SQLException e){
           JOptionPane.showMessageDialog(null,"DB Error","Error",JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();  
-        }  
+            e.printStackTrace(); 
+        }
     }
 
     private void clearText() {
