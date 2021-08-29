@@ -5,9 +5,11 @@
  */
 package Emart.gui;
 
+import Emart.dao.OrderDAO;
 import Emart.dao.ProductsDAO;
 import Emart.pojo.ProductsPojo;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -20,8 +22,11 @@ public class BillingFrame extends javax.swing.JFrame {
 
     ArrayList <ProductsPojo> al=new ArrayList<>();
     DefaultTableModel tm;
+    double grTotal = 0.0;
+
     public BillingFrame() {
         initComponents();
+        tm = (DefaultTableModel) tblInfo.getModel();
         setLocationRelativeTo(null);
         setTitle("Billing Section");
         txtPId.requestFocus();
@@ -39,12 +44,13 @@ public class BillingFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblInfo = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         txtPId = new javax.swing.JTextField();
         btnBack = new javax.swing.JButton();
         btnLogout = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnGenerateBill = new javax.swing.JButton();
+        lblTotal = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -54,7 +60,7 @@ public class BillingFrame extends javax.swing.JFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Billing Options", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 24), new java.awt.Color(240, 240, 240))); // NOI18N
         jPanel2.setOpaque(false);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblInfo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -70,7 +76,7 @@ public class BillingFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblInfo);
 
         jLabel3.setBackground(new java.awt.Color(51, 0, 51));
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -122,20 +128,29 @@ public class BillingFrame extends javax.swing.JFrame {
                 .addGap(25, 25, 25)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel3)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtPId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnLogout)
-                            .addComponent(btnBack))))
+                            .addComponent(btnBack))
+                        .addComponent(txtPId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
-        jButton1.setBackground(new java.awt.Color(0, 0, 0));
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(240, 240, 240));
-        jButton1.setText("Generate Bill");
+        btnGenerateBill.setBackground(new java.awt.Color(0, 0, 0));
+        btnGenerateBill.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btnGenerateBill.setForeground(new java.awt.Color(240, 240, 240));
+        btnGenerateBill.setText("Generate Bill");
+        btnGenerateBill.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerateBillActionPerformed(evt);
+            }
+        });
+
+        lblTotal.setBackground(new java.awt.Color(0, 0, 0));
+        lblTotal.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblTotal.setForeground(new java.awt.Color(240, 240, 240));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -147,8 +162,10 @@ public class BillingFrame extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(328, 328, 328)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(btnGenerateBill, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -156,7 +173,11 @@ public class BillingFrame extends javax.swing.JFrame {
                 .addGap(33, 33, 33)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnGenerateBill)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(lblTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(6, 6, 6)))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
@@ -187,6 +208,22 @@ public class BillingFrame extends javax.swing.JFrame {
         }
         loadItemList(txtPId.getText().trim());
     }//GEN-LAST:event_txtPIdActionPerformed
+
+    private void btnGenerateBillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateBillActionPerformed
+       try{
+           String ordid=OrderDAO.getNextOrderId();
+           if(OrderDAO.addOrder(al, ordid)&&ProductsDAO.updateStocks(al)){
+              JOptionPane.showMessageDialog(null,"Order of Rs"+grTotal+"created successfully","Bill Generated",JOptionPane.INFORMATION_MESSAGE);
+              ViewOrdersFrame vs=new ViewOrdersFrame();
+              vs.setVisible(true);
+              this.dispose();
+           }
+       }
+       catch(SQLException e){
+          JOptionPane.showMessageDialog(null,"DB Error","Error",JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();  
+        } 
+    }//GEN-LAST:event_btnGenerateBillActionPerformed
 
     /**
      * @param args the command line arguments
@@ -225,13 +262,14 @@ public class BillingFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnGenerateBill;
     private javax.swing.JButton btnLogout;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JLabel lblTotal;
+    private javax.swing.JTable tblInfo;
     private javax.swing.JTextField txtPId;
     // End of variables declaration//GEN-END:variables
 
@@ -242,11 +280,56 @@ public class BillingFrame extends javax.swing.JFrame {
               JOptionPane.showMessageDialog(null,"Please enter valid product id","Error",JOptionPane.ERROR_MESSAGE);
             return; 
            }
-           
+          int index=getProductId(pid);
+          if(index==-1){
+              Object[] rows = new Object[8];
+              int quan=1;
+              double amt=quan*p.getOurPrice();
+              p.setQuantity(quan);
+              p.setTotal(amt+(amt*p.getTax()/100));
+              rows[0] = p.getProductId();
+              rows[1] = p.getProductName();
+              rows[2] = p.getProductPrice();
+              rows[3] = p.getOurPrice();
+              rows[4] = p.getProductCompany();
+              rows[5] = p.getQuantity();
+              rows[6] = p.getTax() + "%";
+              rows[7] = p.getTotal();
+              tm.addRow(rows);
+              al.add(p);
+              grTotal+=p.getTotal();
+              lblTotal.setText("Total: "+grTotal);
+          }
+          else{
+              ProductsPojo prd=al.get(index);
+              int oldq=(int)tm.getValueAt(index,5);
+              double amt=prd.getOurPrice();
+              int tax=prd.getTax();
+              amt=amt+(amt*tax/100);
+              double total=(double)tm.getValueAt(index,7);
+              tm.setValueAt(++oldq,index,5);
+              tm.setValueAt(total+amt,index,7);
+              grTotal+=amt;
+              prd.setQuantity(oldq);
+              prd.setTotal(total+amt);
+              al.set(index, prd);
+              lblTotal.setText("Total: "+grTotal);
+          }
        }
     catch(SQLException e){
           JOptionPane.showMessageDialog(null,"DB Error","Error",JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();  
         }  
     }
+   private int getProductId(String pid){
+       int index=-1;
+       for(int i=0;i<al.size();i++){
+           ProductsPojo p=al.get(i);
+           if(p.getProductId().equals(pid)){
+               index=i;
+               break;
+           }
+       }
+     return index;
+   } 
 }

@@ -98,7 +98,7 @@ public class ProductsDAO {
         }
            return p;
     }
-    public boolean updateStocks(List<ProductsPojo> productList) throws SQLException{
+    public static boolean updateStocks(List<ProductsPojo> productList) throws SQLException{
       Connection conn= DBConnection.getConnection();
       PreparedStatement ps=conn.prepareStatement("Update products set quantity=quantity-? where p_id=?");
       int x=0;
