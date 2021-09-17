@@ -249,7 +249,7 @@ public class LoginFrame extends javax.swing.JFrame {
                this.dispose();
             }
             else{
-                ManageReceptionistFrame r=new ManageReceptionistFrame();
+                ReceptionistOptionFrame r=new ReceptionistOptionFrame();
                 r.setVisible(true);
                 this.dispose();
             }

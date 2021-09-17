@@ -305,6 +305,7 @@ public class AddReceptionistFrame extends javax.swing.JFrame {
             UserPojo u=new UserPojo();
             u.setEmpid(empid);
             u.setUserid(userid);
+            u.setPassword(spwd);
             u.setUsername(username);
             u.setUsertype("Receptionist");
             boolean status=ReceptionistDAO.addReceptionist(u);

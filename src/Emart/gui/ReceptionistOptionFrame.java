@@ -5,6 +5,8 @@
  */
 package Emart.gui;
 
+import Emart.pojo.UserProfile;
+
 /**
  *
  * @author AKAN
@@ -16,6 +18,10 @@ public class ReceptionistOptionFrame extends javax.swing.JFrame {
      */
     public ReceptionistOptionFrame() {
         initComponents();
+        setTitle("Receptionist Option");
+        setLocationRelativeTo(null);
+        lblMessage2.setText(UserProfile.getUsername());
+        
     }
 
     /**
@@ -34,8 +40,9 @@ public class ReceptionistOptionFrame extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         btnBilling = new javax.swing.JButton();
         btnViewOrders = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
+        lblMessage = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        lblMessage2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -82,11 +89,21 @@ public class ReceptionistOptionFrame extends javax.swing.JFrame {
         btnBilling.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnBilling.setForeground(new java.awt.Color(240, 240, 240));
         btnBilling.setText("Billing Section");
+        btnBilling.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBillingActionPerformed(evt);
+            }
+        });
 
         btnViewOrders.setBackground(new java.awt.Color(51, 0, 153));
         btnViewOrders.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnViewOrders.setForeground(new java.awt.Color(240, 240, 240));
         btnViewOrders.setText("View Orders");
+        btnViewOrders.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewOrdersActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -109,12 +126,16 @@ public class ReceptionistOptionFrame extends javax.swing.JFrame {
                 .addContainerGap(39, Short.MAX_VALUE))
         );
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(240, 240, 240));
-        jLabel3.setText("Welcome");
+        lblMessage.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        lblMessage.setForeground(new java.awt.Color(240, 240, 240));
+        lblMessage.setText("Welcome");
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(240, 240, 240));
+
+        lblMessage2.setBackground(new java.awt.Color(0, 0, 0));
+        lblMessage2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lblMessage2.setForeground(new java.awt.Color(240, 240, 240));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -126,20 +147,22 @@ public class ReceptionistOptionFrame extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(77, 77, 77)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(30, 30, 30)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(11, 11, 11)
-                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                        .addGap(57, 57, 57)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblMessage2, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lblMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(0, 100, Short.MAX_VALUE)))
                         .addGap(36, 36, 36)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 11, Short.MAX_VALUE)))
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -152,9 +175,11 @@ public class ReceptionistOptionFrame extends javax.swing.JFrame {
                         .addGap(33, 33, 33)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(31, 31, 31)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                            .addComponent(lblMessage2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -180,6 +205,18 @@ public class ReceptionistOptionFrame extends javax.swing.JFrame {
         lf.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnLogoutActionPerformed
+
+    private void btnBillingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBillingActionPerformed
+        BillingFrame bf=new BillingFrame();
+        bf.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnBillingActionPerformed
+
+    private void btnViewOrdersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewOrdersActionPerformed
+        ViewOrdersFrame vf=new ViewOrdersFrame();
+        vf.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnViewOrdersActionPerformed
 
     /**
      * @param args the command line arguments
@@ -221,10 +258,11 @@ public class ReceptionistOptionFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnViewOrders;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel lblMessage;
+    private javax.swing.JLabel lblMessage2;
     // End of variables declaration//GEN-END:variables
 }

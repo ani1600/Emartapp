@@ -125,6 +125,11 @@ public class ManagerFrame extends javax.swing.JFrame {
         btnViewOrders.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnViewOrders.setForeground(new java.awt.Color(240, 240, 240));
         btnViewOrders.setText("View Orders");
+        btnViewOrders.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewOrdersActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -229,6 +234,12 @@ public class ManagerFrame extends javax.swing.JFrame {
         ms.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnManageStocksActionPerformed
+
+    private void btnViewOrdersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewOrdersActionPerformed
+       ViewOrderManagerFrame vf=new ViewOrderManagerFrame();
+       vf.setVisible(true);
+       this.dispose();
+    }//GEN-LAST:event_btnViewOrdersActionPerformed
 
     /**
      * @param args the command line arguments

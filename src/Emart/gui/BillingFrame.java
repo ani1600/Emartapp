@@ -93,6 +93,11 @@ public class BillingFrame extends javax.swing.JFrame {
         btnBack.setBackground(new java.awt.Color(0, 0, 0));
         btnBack.setForeground(new java.awt.Color(240, 240, 240));
         btnBack.setText("Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
 
         btnLogout.setBackground(new java.awt.Color(0, 0, 0));
         btnLogout.setForeground(new java.awt.Color(240, 240, 240));
@@ -224,6 +229,12 @@ public class BillingFrame extends javax.swing.JFrame {
             e.printStackTrace();  
         } 
     }//GEN-LAST:event_btnGenerateBillActionPerformed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+       ReceptionistOptionFrame rf=new ReceptionistOptionFrame();
+       rf.setVisible(true);
+       this.dispose();
+    }//GEN-LAST:event_btnBackActionPerformed
 
     /**
      * @param args the command line arguments
